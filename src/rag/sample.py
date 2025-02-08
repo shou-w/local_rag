@@ -17,16 +17,16 @@ pdf_import_format = ""
 chunk_size = 0
 chunk_overlap = 0
 
-
-def main():
-    print("main")
-    set_params()
-    set_pdf_type()
-    set_db_info()
-    question = "この都市計画の概要を教えて下さい"
-    # question = "漫画ワンピースの作者は誰ですか？"
-    execute_rag_chain(question)
-    print("finish")
+query_list = [
+    "京都市基本計画の計画期間は、何年から何年までですか？",
+    "京都市が掲げる都市理念は何ですか？",
+    "京都市が重点戦略として掲げる「世界の文化首都・京都戦略」を推進する上で、市民・団体、企業・事業者、行政はそれぞれどのような役割を担うことが期待されていますか？",
+    "京都市が持続可能な行財政の確立に向けて取り組むべき課題として、財政構造の抜本的な改革、歳出改革、行財政運営の効率化、の他にどのようなことを重要視していますか？また、その理由について説明してください。",
+    "京都市内にある国宝の数は何件ですか？",
+    "京都市の人口を男女別に見た時の割合は？",
+    "京都で有名な観光スポットの周辺にある美味しいラーメン屋を３つ教えてください。",
+    "今日、京都市内は何℃ですか？",
+]
 
 
 def set_params():
@@ -120,6 +120,23 @@ def execute_rag_chain(question):
     result = get_chain().invoke({"input": question})
     print("answer ==========================")
     print(result["answer"])
+
+
+def main():
+    print("main")
+    set_params()
+    set_pdf_type()
+    set_db_info()
+
+    # question = "この都市計画の概要を教えて下さい"
+    # execute_rag_chain(question)
+
+    for query in query_list:
+        print("\n\nquery ==========================")
+        print(query)
+        execute_rag_chain(query)
+
+    print("finish")
 
 
 if __name__ == "__main__":

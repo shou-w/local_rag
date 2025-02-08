@@ -9,15 +9,6 @@ collection_name = ""
 pdf_path = ""
 
 
-def main():
-    print("main")
-    set_params()
-    set_pdf_type()
-    set_db_info()
-    reset_db()
-    print("finish")
-
-
 def set_params():
     print("set_params")
     global pdf_import_format, splitter_type, chunk_size
@@ -51,6 +42,15 @@ def reset_db():
     )
 
     chroma_client.reset()
+
+
+def main():
+    print("main")
+    set_params()
+    set_pdf_type()
+    set_db_info()
+    reset_db()
+    print("finish")
 
 
 if __name__ == "__main__":

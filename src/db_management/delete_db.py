@@ -6,14 +6,6 @@ splitter_type = ""
 chunk_size = 0
 
 
-def main():
-    print("main")
-    set_params()
-    set_pdf_type()
-    delete_db()
-    print("finish")
-
-
 def set_params():
     print("set_params")
     global pdf_import_format, splitter_type, chunk_size
@@ -41,6 +33,14 @@ def delete_db():
         print(f"Deleted directory: {persist_directory}")
     else:
         print(f"Directory not found: {persist_directory}")
+
+
+def main():
+    print("main")
+    set_params()
+    set_pdf_type()
+    delete_db()
+    print("finish")
 
 
 if __name__ == "__main__":

@@ -22,15 +22,6 @@ collection_name = ""
 pdf_path = ""
 
 
-def main():
-    print("main")
-    set_params()
-    set_pdf()
-    set_db_info()
-    save_documents()
-    print("finish")
-
-
 def set_params():
     print("set_params")
     global pdf_import_format, splitter_type, chunk_size, chunk_overlap
@@ -118,6 +109,15 @@ def save_documents():
     docs = get_splitter().split_documents(get_documents())
     get_vector_store().add_documents(documents=docs)
     print("ベクトルDBへのデータ保存が完了しました。")
+
+
+def main():
+    print("main")
+    set_params()
+    set_pdf()
+    set_db_info()
+    save_documents()
+    print("finish")
 
 
 if __name__ == "__main__":
