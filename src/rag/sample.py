@@ -30,7 +30,6 @@ query_list = [
 
 
 def set_params():
-    print("set_params")
     global pdf_import_format, splitter_type, chunk_size, chunk_overlap
     pdf_import_format = "all"
     # pdf_import_format = "page"
@@ -44,13 +43,11 @@ def set_params():
 
 
 def set_pdf_type():
-    print("set_pdf_type")
     global pdf_type
     pdf_type = "kyoto"
 
 
 def set_db_info():
-    print("set_db_info")
     global persist_directory, collection_name
     persist_directory_name = f"db/chunking_evaluation-pdf_{pdf_type}_{chunk_size}_{pdf_import_format}_{splitter_type}"
     persist_directory = os.path.abspath(persist_directory_name)
@@ -58,7 +55,6 @@ def set_db_info():
 
 
 def get_embed_model():
-    print("get_embed_model")
     embed_model = OpenAIEmbeddings(
         model="text-embedding-3-large",
         api_key=config.OPENAI_API_KEY,
@@ -67,7 +63,6 @@ def get_embed_model():
 
 
 def get_vector_store():
-    print("get_vector_store")
     vector_store = Chroma(
         collection_name=collection_name,
         embedding_function=get_embed_model(),
@@ -78,16 +73,13 @@ def get_vector_store():
 
 
 def get_llm():
-    print("get_llm")
     model_name = "gpt-4o-mini"
     return ChatOpenAI(model=model_name, api_key=config.OPENAI_API_KEY)
 
 
 def get_prompt():
-    print("get_prompt")
     template = """
-    あなたは、与えられたコンテキスト情報のみを使って質問に答えるAIアシスタントです。
-    もし質問に答えるために十分な情報がコンテキストに含まれていない場合は、「コンテキスト情報から回答できません。」と答えてください。
+    与えられたコンテキスト情報を使って、ユーザーの質問に答えてください。
 
     コンテキスト:
     {context}
@@ -101,7 +93,6 @@ def get_prompt():
 
 
 def get_chain():
-    print("get_chain")
     llm = get_llm()
     vector_store = get_vector_store()
     prompt = get_prompt()
@@ -116,14 +107,12 @@ def get_chain():
 
 
 def execute_rag_chain(question):
-    print("execute_rag_chain")
     result = get_chain().invoke({"input": question})
     print("answer ==========================")
     print(result["answer"])
 
 
 def main():
-    print("main")
     set_params()
     set_pdf_type()
     set_db_info()
@@ -135,8 +124,6 @@ def main():
         print("\n\nquery ==========================")
         print(query)
         execute_rag_chain(query)
-
-    print("finish")
 
 
 if __name__ == "__main__":
