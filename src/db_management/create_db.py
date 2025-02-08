@@ -6,15 +6,12 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../..")
 from pypdf import PdfReader
 from chromadb.config import Settings
 from decimal import Decimal, ROUND_HALF_UP
-from langchain_openai import OpenAIEmbeddings as LangchainOpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings
 from langchain_chroma import Chroma
 from chromadb.config import Settings
-from langchain_core.documents import Document as LangchainDocument
+from langchain_core.documents import Document
 from langchain_text_splitters import CharacterTextSplitter
-from dotenv import load_dotenv
 import config
-
-load_dotenv(verbose=True)
 
 pdf_import_format = ""
 splitter_type = ""
@@ -66,7 +63,7 @@ def set_db_info():
 
 def get_embed_model():
     print("get_embed_model")
-    embed_model = LangchainOpenAIEmbeddings(
+    embed_model = OpenAIEmbeddings(
         model="text-embedding-3-large",
         api_key=config.OPENAI_API_KEY,
     )
@@ -94,14 +91,14 @@ def get_documents():
         for page_num, page in enumerate(reader.pages):
             text = page.extract_text()
             if text.strip():  # 空のページをスキップ
-                documents.append(LangchainDocument(page_content=text))
+                documents.append(Document(page_content=text))
     else:
         print("all")
         text = ""
         for page_num, page in enumerate(reader.pages):
             text += page.extract_text()
 
-        documents = [LangchainDocument(page_content=text)]
+        documents = [Document(page_content=text)]
 
     return documents
 
