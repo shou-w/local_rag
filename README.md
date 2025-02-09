@@ -73,6 +73,8 @@ RAG評価 (Retrieval-Augmented Generation Evaluation) を実行するには、`s
 uv run src/rag-evaluation/sample.py
 ```
 
+FlagEmbeddingによってインストールされたモデルは、デフォルトで `/Users/<YourUsername>/.cache/huggingface/transformers` ディレクトリに保存されます。
+
 ## 設定ファイル
 
 設定ファイル `config.py` には、RAGアプリケーションの動作をカスタマイズするためのパラメータが定義されています。必要に応じて、このファイルの内容を変更してください。
