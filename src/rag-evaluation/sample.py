@@ -1,3 +1,4 @@
+import numpy as np
 import sys
 import os
 
@@ -12,6 +13,8 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
 from langchain_chroma import Chroma
 from langchain.prompts import ChatPromptTemplate
+from sklearn.metrics.pairwise import cosine_similarity
+from FlagEmbedding import FlagReranker
 
 
 pdf_import_format = ""
@@ -108,9 +111,34 @@ def get_chain():
 
 
 def execute_rag_chain(question):
-    result = get_chain().invoke({"input": question})
-    print("answer ==========================")
-    print(result["answer"])
+    return get_chain().invoke({"input": question})
+
+
+def get_cosine_similarity(question, chunk_list):
+    query_embedding = get_embed_model().embed_query(question)
+    chunk_embeddings = get_embed_model().embed_documents(chunk_list)
+    query_embedding = np.array(query_embedding).reshape(1, -1)  # numpy配列に変換
+    chunk_embeddings = np.array(chunk_embeddings)  # numpy配列に変換
+    similarity_score_list = cosine_similarity(query_embedding, chunk_embeddings)
+    return similarity_score_list
+
+
+def get_reranker():
+    reranker_model = "BAAI/bge-reranker-v2-m3"
+    return FlagReranker(reranker_model, use_fp16=True)
+
+
+def get_relevance_score(question, chunk_list):
+    query_text_pairs = []
+    for text in chunk_list:
+        query_text_pairs.append([question, text])
+
+    relevance_score_list = get_reranker().compute_score(
+        query_text_pairs,
+        normalize=True,
+    )
+
+    return relevance_score_list
 
 
 def main():
@@ -118,13 +146,22 @@ def main():
     set_pdf_type()
     set_db_info()
 
-    # question = "この都市計画の概要を教えて下さい"
-    # execute_rag_chain(question)
+    question = "この都市計画の概要を教えて下さい"
+    result = execute_rag_chain(question)
+    chunk_list = [doc.page_content for doc in result["context"]]
+    similarity_score_list = get_cosine_similarity(question, chunk_list)
+    relevance_score_list = get_relevance_score(question, chunk_list)
 
-    for query in query_list:
-        print("\n\nquery ==========================")
-        print(query)
-        execute_rag_chain(query)
+    for i in range(len(chunk_list)):
+        print(f"\n\nチャンク {i+1}")
+        if chunk_list and len(chunk_list[i]) >= 20:
+            print(f"内容: {chunk_list[i][:20]}")
+        elif chunk_list:
+            print(f"内容: {chunk_list[i]}")
+        else:
+            print("内容: チャンクがありません")
+        print(f"コサイン類似度: {similarity_score_list[0][i]}")
+        print(f"関連度スコア: {relevance_score_list[i]}")
 
 
 if __name__ == "__main__":

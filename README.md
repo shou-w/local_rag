@@ -65,7 +65,14 @@ RAG (Retrieval-Augmented Generation) を実行するには、`src/rag/sample.py`
 uv run src/rag/sample.py
 ```
 
+## RAG評価実行
+
+RAG評価 (Retrieval-Augmented Generation Evaluation) を実行するには、`src/rag-evaluation/sample.py` スクリプトを使用します。
+
+```bash
+uv run src/rag-evaluation/sample.py
+```
+
 ## 設定ファイル
 
 設定ファイル `config.py` には、RAGアプリケーションの動作をカスタマイズするためのパラメータが定義されています。必要に応じて、このファイルの内容を変更してください。
-
