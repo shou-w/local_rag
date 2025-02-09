@@ -1031,6 +1031,25 @@ wheels = [
 ]
 
 [[package]]
+name = "langfuse"
+version = "2.59.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "anyio" },
+    { name = "backoff" },
+    { name = "httpx" },
+    { name = "idna" },
+    { name = "packaging" },
+    { name = "pydantic" },
+    { name = "requests" },
+    { name = "wrapt" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/a2/c7/7a971d00131a941a182a4295b36d9df1b03029b60a9aeb80425c1f9f68ca/langfuse-2.59.1.tar.gz", hash = "sha256:231470e37075ab44a89369085d8e639121b85650610c974b1ebb847f5b15ab6f", size = 144503 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/5b/ae/3b59b4a6dc6bf308a786cc910978cf6ae5c1e5e488cbeb637bc03a91d6bf/langfuse-2.59.1-py3-none-any.whl", hash = "sha256:5cfa7b7fc243727bbab1f63e98fbf669387d29e9e38432a678164ddea9413afe", size = 258052 },
+]
+
+[[package]]
 name = "langsmith"
 version = "0.3.7"
 source = { registry = "https://pypi.org/simple" }
@@ -1058,6 +1077,7 @@ dependencies = [
     { name = "langchain-community" },
     { name = "langchain-openai" },
     { name = "langchain-text-splitters" },
+    { name = "langfuse" },
     { name = "pypdf" },
     { name = "python-dotenv" },
     { name = "scikit-learn" },
@@ -1072,6 +1092,7 @@ requires-dist = [
     { name = "langchain-community", specifier = ">=0.3.17" },
     { name = "langchain-openai", specifier = ">=0.3.4" },
     { name = "langchain-text-splitters", specifier = ">=0.3.6" },
+    { name = "langfuse", specifier = ">=2.59.1" },
     { name = "pypdf", specifier = ">=5.2.0" },
     { name = "python-dotenv", specifier = ">=1.0.1" },
     { name = "scikit-learn", specifier = ">=1.6.1" },

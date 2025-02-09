@@ -7,6 +7,42 @@
 - **`.env` ファイルの設定:** アプリケーション実行前に、必ず `.env` ファイルに `OPENAI_API_KEY` を設定してください。`.env` ファイルに `OPENAI_API_KEY=YOUR_API_KEY` のように記述します。APIキーが設定されていない場合、スクリプトは正常に動作しません。
 - **`uv sync` の実行:** `uv sync` コマンドは、プロジェクトの依存関係を更新するために使用します。環境変更後、または新しいライブラリをインストールした後は必ず実行してください。
 
+## Langfuseを使う場合
+
+Langfuseを使用する場合の手順は以下の通りです。
+
+まず、GitとDockerがインストールされ、アクティブになっていることを確認してください（そうでない場合は、Docker Desktopアプリを開いてください）。
+コマンドプロンプト/PowerShellで以下を入力します。
+
+```bash
+git clone https://github.com/langfuse/langfuse.git
+```
+
+次に、同じターミナルで以下を入力します。
+
+```bash
+cd langfuse
+```
+
+最後に、ターミナルで以下を入力します。
+
+```bash
+docker compose up
+```
+
+このステップには数分かかる場合があります。
+
+ローカルサーバーが起動し、以下を使用してアクセスできます。
+
+```
+http://localhost:3000
+```
+
+または
+
+```
+http://0.0.0.0:3000
+```
 
 ## 環境構築
 
@@ -35,7 +71,6 @@ uv run src/db_management/create_db.py
 
 上記のコマンドを実行すると、`src/db_management/create_db.py` スクリプトが実行され、ChromaDBが作成されます。このスクリプトは、指定されたPDFファイルからテキストを抽出し、OpenAI APIを使用してベクトル埋め込みを生成し、ChromaDBに保存します。
 
-
 ### DBリセット
 
 DBをリセット（初期化）するには、以下のコマンドを実行します。
@@ -45,7 +80,6 @@ uv run src/db_management/reset_db.py
 ```
 
 このスクリプトは、既存のDBを削除し、新しい空のDBを作成します。DBの内容を完全に消去したい場合に実行してください。
-
 
 ### DB削除
 

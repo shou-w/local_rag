@@ -15,6 +15,14 @@ from langchain_chroma import Chroma
 from langchain.prompts import ChatPromptTemplate
 from sklearn.metrics.pairwise import cosine_similarity
 from FlagEmbedding import FlagReranker
+from langfuse.callback import CallbackHandler
+
+
+langfuse_handler = CallbackHandler(
+    secret_key=config.LANGFUSE_SECRET_KEY,
+    public_key=config.LANGFUSE_PUBLIC_KEY,
+    host="http://localhost:3000",
+)
 
 
 pdf_import_format = ""
@@ -111,7 +119,9 @@ def get_chain():
 
 
 def execute_rag_chain(question):
-    return get_chain().invoke({"input": question})
+    return get_chain().invoke(
+        {"input": question}, config={"callbacks": [langfuse_handler]}
+    )
 
 
 def get_cosine_similarity(question, chunk_list):
@@ -148,20 +158,23 @@ def main():
 
     question = "この都市計画の概要を教えて下さい"
     result = execute_rag_chain(question)
-    chunk_list = [doc.page_content for doc in result["context"]]
-    similarity_score_list = get_cosine_similarity(question, chunk_list)
-    relevance_score_list = get_relevance_score(question, chunk_list)
 
-    for i in range(len(chunk_list)):
-        print(f"\n\nチャンク {i+1}")
-        if chunk_list and len(chunk_list[i]) >= 20:
-            print(f"内容: {chunk_list[i][:20]}")
-        elif chunk_list:
-            print(f"内容: {chunk_list[i]}")
-        else:
-            print("内容: チャンクがありません")
-        print(f"コサイン類似度: {similarity_score_list[0][i]}")
-        print(f"関連度スコア: {relevance_score_list[i]}")
+    print(result["answer"])
+
+    # chunk_list = [doc.page_content for doc in result["context"]]
+    # similarity_score_list = get_cosine_similarity(question, chunk_list)
+    # relevance_score_list = get_relevance_score(question, chunk_list)
+
+    # for i in range(len(chunk_list)):
+    #     print(f"\n\nチャンク {i+1}")
+    #     if chunk_list and len(chunk_list[i]) >= 20:
+    #         print(f"内容: {chunk_list[i][:20]}")
+    #     elif chunk_list:
+    #         print(f"内容: {chunk_list[i]}")
+    #     else:
+    #         print("内容: チャンクがありません")
+    #     print(f"コサイン類似度: {similarity_score_list[0][i]}")
+    #     print(f"関連度スコア: {relevance_score_list[i]}")
 
 
 if __name__ == "__main__":
