@@ -44,6 +44,10 @@ http://localhost:3000
 http://0.0.0.0:3000
 ```
 
+Langfuseは自分で最新状態を維持する必要があります。
+以下より、最新版の通知を受け取ることができます。
+https://langfuse.com/self-hosting#subscribe-to-updates
+
 ## 環境構築
 
 ### 環境の同期
