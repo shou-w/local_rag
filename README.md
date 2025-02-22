@@ -115,6 +115,14 @@ uv run src/rag-evaluation/sample.py
 
 FlagEmbeddingによってインストールされたモデルは、デフォルトで `/Users/<YourUsername>/.cache/huggingface/transformers` ディレクトリに保存されます。
 
+## APIサーバー実行
+
+APIサーバーを起動するには、以下のコマンドを実行します。
+
+```bash
+uv run fastapi dev ./src/api/main.py
+```
+
 ## 設定ファイル
 
 設定ファイル `config.py` には、RAGアプリケーションの動作をカスタマイズするためのパラメータが定義されています。必要に応じて、このファイルの内容を変更してください。
