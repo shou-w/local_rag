@@ -109,22 +109,25 @@ def get_chain():
 
 def execute_rag_chain(question):
     result = get_chain().invoke({"input": question})
-    print("answer ==========================")
-    print(result["answer"])
+    # print("answer ==========================")
+    # print(result["answer"])
+    return result["answer"]
 
 
-def main():
+def main(question=None):
     set_params()
     set_pdf_type()
     set_db_info()
 
-    # question = "この都市計画の概要を教えて下さい"
-    # execute_rag_chain(question)
+    if question is None:
+        question = "この都市計画の概要を教えて下さい"
 
-    for query in query_list:
-        print("\n\nquery ==========================")
-        print(query)
-        execute_rag_chain(query)
+    return execute_rag_chain(question)
+
+    # for query in query_list:
+    #     print("\n\nquery ==========================")
+    #     print(query)
+    #     execute_rag_chain(query)
 
 
 if __name__ == "__main__":
