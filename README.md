@@ -123,6 +123,53 @@ APIサーバーを起動するには、以下のコマンドを実行します�
 uv run fastapi dev ./src/api/main.py
 ```
 
+## Promptfoo
+
+Promptfooは、LLMプロンプトの評価と最適化のためのツールです。以下の手順でセットアップと実行を行います。
+
+### インストールと設定
+
+以下のディレクトリ構造で設定します：
+
+```
+local_rag/
+└── promptfoo/
+    └── promptfoo
+```
+
+詳細な設定手順は[公式ドキュメント](https://www.promptfoo.dev/docs/usage/self-hosting/#building-from-source)を参照してください。
+promptfoo 内で clone します。
+**アップデートする際は、local_rag/promptfoo/promptfoo に移動して pull する必要がある。**
+
+### 実行手順
+
+1. Dockerコンテナの起動：
+```bash
+# docker run -d --name promptfoo_container -p 3000:3000 -v /Users/shou/myProjects/promptfoo:/home/promptfoo/.promptfoo promptfoo
+
+docker run -d --name promptfoo_container -p 3000:3000 -v /Users/shou/myProjects/local_rag/promptfoo:/home/promptfoo/.promptfoo promptfoo
+```
+
+＊ コンテナが起動しない場合は以下のコマンドで削除して再試行：
+```bash
+docker rm promptfoo_container
+```
+
+2. コンテナ内のシェルにアクセス：
+```bash
+docker container exec -it promptfoo_container /bin/sh
+```
+
+3. 実行したい promptfoo.yaml の設定ディレクトリに移動：
+```bash
+cd /home/promptfoo/.promptfoo/
+```
+
+4. 評価の実行：
+```bash
+promptfoo eval -c promptfoo.yaml
+```
+
 ## 設定ファイル
 
 設定ファイル `config.py` には、RAGアプリケーションの動作をカスタマイズするためのパラメータが定義されています。必要に応じて、このファイルの内容を変更してください。
