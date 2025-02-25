@@ -145,7 +145,9 @@ promptfoo 内で clone します。
 
 1. Dockerコンテナの起動：
 ```bash
-docker run -d --name promptfoo_container -p 3000:3000 -v /Users/shou/myProjects/promptfoo:/home/promptfoo/.promptfoo promptfoo
+# docker run -d --name promptfoo_container -p 3000:3000 -v /Users/shou/myProjects/promptfoo:/home/promptfoo/.promptfoo promptfoo
+
+docker run -d --name promptfoo_container -p 3000:3000 -v /Users/shou/myProjects/local_rag/promptfoo:/home/promptfoo/.promptfoo promptfoo
 ```
 
 ＊ コンテナが起動しない場合は以下のコマンドで削除して再試行：

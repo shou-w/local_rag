@@ -1,0 +1,22 @@
+description: "My promptfoo"
+
+prompts:
+  - "{{question}}"
+
+providers:
+  - id: http
+    config:
+      url: 'http://127.0.0.1:8000/rag'
+      method: 'POST'
+      headers:
+        'Content-Type': 'application/json'
+      body:
+        question: '{{prompt}}'
+      # transformResponse: 'json.output'
+
+tests:
+  - vars:
+      question: この都市計画の概要を教えて下さい
+    assert:
+      - type: contains
+        value: 都市計画
