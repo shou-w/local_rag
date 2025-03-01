@@ -9,10 +9,10 @@ providers:
       url: 'http://127.0.0.1:8000/rag'
       method: 'POST'
       headers:
+        'accept': 'application/json'
         'Content-Type': 'application/json'
       body:
         question: '{{prompt}}'
-      # transformResponse: 'json.output'
 
 tests:
   - vars:

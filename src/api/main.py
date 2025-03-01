@@ -16,6 +16,6 @@ def read_root():
 
 
 @app.post("/rag/")
-async def new_naming(req: question.Question):
+async def chat(req: question.Question):
     question = req.question
     return rag.main(question)
